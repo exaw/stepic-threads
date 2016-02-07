@@ -76,6 +76,15 @@ int main()
                 close(fd3[0]);
                 close(fd3[1]);
 
+                mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
+                int fid = open ( "/home/box/result.out", O_CREAT | O_WRONLY, mode);
+                close(STDOUT_FILENO);
+                dup2 ( fid, STDOUT_FILENO );
+
+                close(fd3[0]);
+                close(fd3[1]);
+                close (fid);
+
                 execlp("sort", "sort", "-nk1", NULL);
             }
         }
